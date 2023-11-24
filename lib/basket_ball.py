@@ -182,3 +182,77 @@ def game_dict():
             ]
         }
     }
+
+
+def num_points_per_game(name):
+    for player in game_dict()["home"]["players"]:
+        if player["name"] == name:
+            return player["points_per_game"]
+    for player in game_dict()["away"]["players"]:
+        if player["name"] == name:
+            return player["points_per_game"]
+
+
+
+def player_age(name):
+    for player in game_dict()["home"]["players"]:
+        if player["name"] == name:
+            return player["age"]
+    for player in game_dict()["away"]["players"]:
+        if player["name"] == name:
+            return player["age"]
+
+
+
+def team_colors(name):
+    if game_dict()["home"]["team_name"] == name:
+        return game_dict()["home"]["colors"]
+    elif game_dict()["away"]["team_name"] == name:
+        return game_dict()["away"]["colors"]
+
+
+
+def team_names():
+    names = []
+    names.append(game_dict()["home"]["team_name"])
+    names.append(game_dict()["away"]["team_name"])
+    return names
+
+
+
+def player_numbers(name):
+    return [
+        player["number"]
+        for player in game_dict()["home"]["players"]
+        if game_dict()["home"]["team_name"] == name
+    ] or [
+        player["number"]
+        for player in game_dict()["away"]["players"]
+        if game_dict()["away"]["team_name"]
+    ]
+
+
+
+def player_stats(name):
+    for player in game_dict()["home"]["players"]:
+        if player["name"] == name:
+            return player
+    for player in game_dict()["away"]["players"]:
+        if player["name"] == name:
+            return player
+
+
+
+def average_rebounds_by_shoe_brand():
+    players = game_dict()["home"]["players"] + game_dict()["away"]["players"]
+    brands = {}
+  
+       
+    for player in players:
+        if player['shoe_brand'] in brands.keys():
+            brands[player['shoe_brand']].append(player["rebounds_per_game"])
+        else:
+            brands[player['shoe_brand']] = [(player["rebounds_per_game"])]
+        
+    for key,values in brands.items():
+        print(f'{key}:  { round(sum(values)/len(values), 2):.2f}')
